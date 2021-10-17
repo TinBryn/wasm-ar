@@ -3,6 +3,7 @@ name = "wasm-ar"
 version = "0.1.0"
 authors = ["Kieran Griffiths <20491633@student.uwa.edu.au>"]
 edition = "2018"
+repository = "https://github.com/TinBryn/wasm-ar.git"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

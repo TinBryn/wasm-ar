@@ -1,6 +1,9 @@
 {
   "version": "0.1.0",
   "main": "index.js",
+  "repository": {
+    "url": "https://github.com/TinBryn/wasm-ar.git"
+  },
   "bin": {
     "create-wasm-app": ".bin/create-wasm-app.js"
   },
