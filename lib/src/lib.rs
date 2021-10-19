@@ -6,13 +6,13 @@ mod utils;
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
-#[macro_use]
-extern crate lazy_static;
-
 mod app_state;
 mod gl_setup;
 mod shaders;
 
+use std::sync::{Arc, Mutex};
+
+use app_state::AppState;
 use wasm_bindgen::prelude::*;
 use web_sys::WebGlRenderingContext as GL;
 use web_sys::*;
@@ -21,6 +21,7 @@ use web_sys::*;
 pub struct Client {
     gl: WebGlRenderingContext,
     program: shaders::color2d_gradient::Color2D,
+    state: Mutex<Arc<AppState>>,
 }
 
 #[wasm_bindgen]
@@ -38,7 +39,11 @@ impl Client {
 
         let program = shaders::color2d_gradient::Color2D::new(&gl);
 
-        Self { gl, program }
+        Self {
+            gl,
+            program,
+            state: Mutex::new(Arc::new(AppState::new())),
+        }
     }
 
     pub fn update(
@@ -47,30 +52,30 @@ impl Client {
         canvas_width: f32,
         canvas_height: f32,
     ) -> Result<(), JsValue> {
-        app_state::update_dynamic_data(
+        let mut state = self.state.lock().unwrap();
+        *state = Arc::new(state.updated(
             time,
             app_state::Canvas {
                 width: canvas_width,
                 height: canvas_height,
             },
-        );
+        ));
         Ok(())
     }
 
     pub fn render(&self) {
         self.gl.clear(GL::COLOR_BUFFER_BIT | GL::DEPTH_BUFFER_BIT);
 
-        let curr_state = app_state::get_curr_state();
+        let curr_state = self.get_curr_state();
 
-        self.program.render(
-            &self.gl,
-            curr_state.control.bottom,
-            curr_state.control.top,
-            curr_state.control.left,
-            curr_state.control.right,
-            curr_state.canvas.width,
-            curr_state.canvas.height,
-        );
+        self.program
+            .render(&self.gl, curr_state.control, curr_state.canvas);
+    }
+}
+
+impl Client {
+    fn get_curr_state(&self) -> Arc<AppState> {
+        self.state.lock().unwrap().clone()
     }
 }
 

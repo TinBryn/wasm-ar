@@ -12,6 +12,8 @@ use web_sys::WebGlRenderingContext;
 use web_sys::WebGlRenderingContext as GL;
 use web_sys::WebGlUniformLocation;
 
+use crate::app_state;
+
 pub struct Color2D {
     program: WebGlProgram,
     vertex_buffer: WebGlBuffer,
@@ -66,16 +68,11 @@ impl Color2D {
         }
     }
 
-    #[allow(clippy::too_many_arguments)]
     pub fn render(
         &self,
         gl: &WebGlRenderingContext,
-        bottom: f32,
-        top: f32,
-        left: f32,
-        right: f32,
-        canvas_width: f32,
-        canvas_height: f32,
+        control: app_state::Control,
+        canvas: app_state::Canvas,
     ) {
         gl.use_program(Some(&self.program));
 
@@ -86,14 +83,14 @@ impl Color2D {
         gl.uniform4f(Some(&self.u_color), 0.0, 0.5, 0.5, 1.0);
 
         let translation = Mat4::translate(Vec3::new(
-            2.0 * left / canvas_width - 1.0,
-            2.0 * bottom / canvas_height - 1.0,
+            2.0 * control.left / canvas.width - 1.0,
+            2.0 * control.bottom / canvas.height - 1.0,
             0.0,
         ));
 
         let scale = Mat4::scale(Vec3::new(
-            2.0 * (right - left) / canvas_width,
-            2.0 * (top - bottom) / canvas_height,
+            2.0 * (control.right - control.left) / canvas.width,
+            2.0 * (control.top - control.bottom) / canvas.height,
             1.0,
         ));
 
