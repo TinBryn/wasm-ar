@@ -10,31 +10,3 @@ use wasm_ar::universe::Universe;
 use wasm_bindgen_test::*;
 
 wasm_bindgen_test_configure!(run_in_browser);
-
-#[wasm_bindgen_test]
-fn tick_test() {
-    let mut input = input_spaceship();
-
-    let expected = expected_spaceship();
-
-    input.tick();
-    assert_eq!(&input.get_cells(), &expected.get_cells());
-}
-
-#[cfg(test)]
-pub fn input_spaceship() -> Universe {
-    let mut universe = Universe::new();
-    universe.set_width(6);
-    universe.set_height(6);
-    universe.set_cells(&[(1, 2), (2, 3), (3, 1), (3, 2), (3, 3)]);
-    universe
-}
-
-#[cfg(test)]
-pub fn expected_spaceship() -> Universe {
-    let mut universe = Universe::new();
-    universe.set_width(6);
-    universe.set_height(6);
-    universe.set_cells(&[(2, 1), (2, 3), (3, 2), (3, 3), (4, 2)]);
-    universe
-}
