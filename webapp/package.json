@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "develop": "webpack-dev-server --host 0.0.0.0"
+    "develop": "(cd ../lib; wasm-pack build) && webpack-dev-server --host 0.0.0.0"
   },
   "dependencies": {
     "express": "^4.17.1",
