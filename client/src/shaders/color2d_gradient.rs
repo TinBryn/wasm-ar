@@ -27,7 +27,7 @@ pub struct Color2D {
 impl Color2D {
     pub fn new(gl: &WebGlRenderingContext) -> Self {
         let program =
-            super::create::link_program(gl, COLOR_2D_GRADIENT_VERT, COLOR_2D_GRADIENT_FRAG)
+            ::shaders::compile::link_program(gl, COLOR_2D_GRADIENT_VERT, COLOR_2D_GRADIENT_FRAG)
                 .unwrap();
 
         let verticies: [f32; 12] = [
