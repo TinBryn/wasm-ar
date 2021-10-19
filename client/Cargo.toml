@@ -1,5 +1,5 @@
 [package]
-name = "wasm-ar"
+name = "client"
 version = "0.1.0"
 authors = ["Kieran Griffiths <20491633@student.uwa.edu.au>"]
 edition = "2018"
