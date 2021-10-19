@@ -11,7 +11,6 @@ extern crate lazy_static;
 
 mod app_state;
 mod gl_setup;
-mod math;
 mod shaders;
 
 use wasm_bindgen::prelude::*;

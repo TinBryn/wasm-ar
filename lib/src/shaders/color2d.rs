@@ -1,3 +1,5 @@
+use gfx_maths::Mat4;
+use gfx_maths::Vec3;
 use std::mem::size_of;
 use wasm_bindgen::JsCast;
 use web_sys::WebGlBuffer;
@@ -80,25 +82,21 @@ impl Color2D {
 
         gl.uniform4f(Some(&self.u_color), 0.0, 0.5, 0.5, 1.0);
 
-        let translation = crate::math::translation_matrix(
+        let translation = Mat4::translate(Vec3::new(
             2.0 * left / canvas_width - 1.0,
             2.0 * bottom / canvas_height - 1.0,
             0.0,
-        );
+        ));
 
-        let scale = crate::math::scaling_matrix(
+        let scale = Mat4::scale(Vec3::new(
             2.0 * (right - left) / canvas_width,
             2.0 * (top - bottom) / canvas_height,
             1.0,
-        );
+        ));
 
         let transform = translation * scale;
 
-        gl.uniform_matrix4fv_with_f32_array(
-            Some(&self.u_transform),
-            false,
-            &transform.values,
-        );
+        gl.uniform_matrix4fv_with_f32_array(Some(&self.u_transform), false, &transform.values);
 
         gl.uniform1f(Some(&self.u_opacity), 1.0);
 

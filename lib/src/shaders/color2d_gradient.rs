@@ -3,6 +3,8 @@ pub const COLOR_2D_GRADIENT_FRAG: &str = include_str!("../../shaders/color_2d_gr
 
 use std::mem::size_of;
 
+use gfx_maths::Mat4;
+use gfx_maths::Vec3;
 use wasm_bindgen::JsCast;
 use web_sys::WebGlBuffer;
 use web_sys::WebGlProgram;
@@ -83,17 +85,17 @@ impl Color2D {
 
         gl.uniform4f(Some(&self.u_color), 0.0, 0.5, 0.5, 1.0);
 
-        let translation = crate::math::translation_matrix(
+        let translation = Mat4::translate(Vec3::new(
             2.0 * left / canvas_width - 1.0,
             2.0 * bottom / canvas_height - 1.0,
             0.0,
-        );
+        ));
 
-        let scale = crate::math::scaling_matrix(
+        let scale = Mat4::scale(Vec3::new(
             2.0 * (right - left) / canvas_width,
             2.0 * (top - bottom) / canvas_height,
             1.0,
-        );
+        ));
 
         let transform = translation * scale;
 
