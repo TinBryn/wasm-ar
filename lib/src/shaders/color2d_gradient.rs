@@ -95,9 +95,9 @@ impl Color2D {
             1.0,
         );
 
-        let transform = scale * translation;
+        let transform = translation * scale;
 
-        gl.uniform_matrix4fv_with_f32_array(Some(&self.u_transform), false, &transform.elements);
+        gl.uniform_matrix4fv_with_f32_array(Some(&self.u_transform), false, &transform.values);
 
         gl.uniform1f(Some(&self.u_opacity), 1.0);
 

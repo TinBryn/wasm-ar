@@ -1,5 +1,4 @@
 use std::mem::size_of;
-
 use wasm_bindgen::JsCast;
 use web_sys::WebGlBuffer;
 use web_sys::WebGlProgram;
@@ -93,12 +92,12 @@ impl Color2D {
             1.0,
         );
 
-        let transform = scale * translation;
+        let transform = translation * scale;
 
         gl.uniform_matrix4fv_with_f32_array(
             Some(&self.u_transform),
             false,
-            &transform.elements,
+            &transform.values,
         );
 
         gl.uniform1f(Some(&self.u_opacity), 1.0);
