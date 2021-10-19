@@ -47,7 +47,13 @@ impl Client {
         canvas_width: f32,
         canvas_height: f32,
     ) -> Result<(), JsValue> {
-        app_state::update_dynamic_data(time, canvas_width, canvas_height);
+        app_state::update_dynamic_data(
+            time,
+            app_state::Canvas {
+                width: canvas_width,
+                height: canvas_height,
+            },
+        );
         Ok(())
     }
 
@@ -58,12 +64,12 @@ impl Client {
 
         self.program.render(
             &self.gl,
-            curr_state.control_bottom,
-            curr_state.control_top,
-            curr_state.control_left,
-            curr_state.control_right,
-            curr_state.canvas_width,
-            curr_state.canvas_height,
+            curr_state.control.bottom,
+            curr_state.control.top,
+            curr_state.control.left,
+            curr_state.control.right,
+            curr_state.canvas.width,
+            curr_state.canvas.height,
         );
     }
 }

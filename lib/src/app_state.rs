@@ -5,25 +5,26 @@ lazy_static! {
     static ref APP_STATE: Mutex<Arc<AppState>> = Mutex::new(Arc::new(AppState::new()));
 }
 
-pub fn update_dynamic_data(time: f32, canvas_width: f32, canvas_height: f32) {
-    let min_height_width = canvas_height.min(canvas_width);
+pub fn update_dynamic_data(time: f32, canvas: Canvas) {
+    let min_height_width = canvas.height.min(canvas.width);
     let display_size = 0.9 * min_height_width;
 
     let half_display_size = display_size * 0.5;
-    let half_canvas_width = canvas_width * 0.5;
-    let half_canvas_height = canvas_height * 0.5;
+    let half_canvas_width = canvas.width * 0.5;
+    let half_canvas_height = canvas.height * 0.5;
 
     let mut data = APP_STATE.lock().unwrap();
 
     *data = Arc::new(AppState {
-        canvas_width,
-        canvas_height,
+        canvas,
         time,
 
-        control_bottom: half_canvas_height - half_display_size,
-        control_top: half_canvas_height + half_display_size,
-        control_left: half_canvas_width - half_display_size,
-        control_right: half_canvas_width + half_display_size,
+        control: Control {
+            bottom: half_canvas_height - half_display_size,
+            top: half_canvas_height + half_display_size,
+            left: half_canvas_width - half_display_size,
+            right: half_canvas_width + half_display_size,
+        },
     });
 }
 
@@ -31,25 +32,37 @@ pub fn get_curr_state() -> Arc<AppState> {
     APP_STATE.lock().unwrap().clone()
 }
 
+pub struct Canvas {
+    pub width: f32,
+    pub height: f32,
+}
+
+pub struct Control {
+    pub bottom: f32,
+    pub top: f32,
+    pub left: f32,
+    pub right: f32,
+}
+
 pub struct AppState {
-    pub canvas_width: f32,
-    pub canvas_height: f32,
-    pub control_bottom: f32,
-    pub control_top: f32,
-    pub control_left: f32,
-    pub control_right: f32,
+    pub canvas: Canvas,
+    pub control: Control,
     pub time: f32,
 }
 
 impl AppState {
     fn new() -> Self {
         Self {
-            canvas_height: 0.0,
-            canvas_width: 0.0,
-            control_bottom: 0.0,
-            control_top: 0.0,
-            control_left: 0.0,
-            control_right: 0.0,
+            canvas: Canvas {
+                width: 0.0,
+                height: 0.0,
+            },
+            control: Control {
+                bottom: 0.0,
+                top: 0.0,
+                left: 0.0,
+                right: 0.0,
+            },
             time: 0.0,
         }
     }
