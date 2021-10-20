@@ -47,6 +47,7 @@ impl AppState {
         let half_canvas_height = canvas.height * 0.5;
 
         self.canvas = canvas;
+        let time_step = time - self.time;
         self.time = time;
 
         self.control = Control {
@@ -56,8 +57,8 @@ impl AppState {
             right: half_canvas_width + half_display_size,
         };
 
-        self.angles.x += 0.01;
-        self.angles.y += 0.02;
-        self.angles.y += 0.03;
+        self.angles.x += 0.00036 * time_step;
+        self.angles.y += 0.00060 * time_step;
+        self.angles.y += 0.00084 * time_step;
     }
 }
