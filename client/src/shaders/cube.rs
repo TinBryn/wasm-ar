@@ -146,15 +146,12 @@ impl Cube {
         let rotation_y = Quaternion::axis_angle(Vec3::new(0.0, 1.0, 0.0), angles.y);
         let rotation_z = Quaternion::axis_angle(Vec3::new(0.0, 0.0, 1.0), angles.z);
         let rotation = rotation_x * rotation_y * rotation_z;
-        // let rotation = Quaternion::axis_angle(Vec3::new(1.0, 1.0, 1.0).normalized(), 0.4);
+
         let rotation = Mat4::rotate(rotation);
         let translation = Mat4::translate(Vec3::new(0.0, 0.0, 3.0));
-        // let scale = Mat4::scale(Vec3::new(0.5, 0.5, 0.5));
         let scale = Mat4::scale(Vec3::new(1.0, 1.0, 1.0));
 
         let transform = translation * scale * rotation;
-
-        // crate::utils::log(&format!("transform = {:?}", transform));
 
         gl.uniform_matrix4fv_with_f32_array(Some(&self.u_transform), false, &transform.values);
 
@@ -164,10 +161,6 @@ impl Cube {
             10.0,
             canvas.width / canvas.height,
         );
-
-        // let projection = Mat4::identity();
-
-        // utils::log(&format!("projection = {:?}", projection));
 
         gl.uniform_matrix4fv_with_f32_array(Some(&self.u_projection), false, &projection.values);
 
