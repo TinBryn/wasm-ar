@@ -125,12 +125,16 @@ impl Cube {
 
         gl.uniform_matrix4fv_with_f32_array(Some(&self.u_transform), false, &transform.values);
 
-        let projection = Mat4::perspective_opengl(
-            std::f32::consts::PI / 1.5,
-            0.1,
-            10.0,
-            canvas.width / canvas.height,
-        );
+        let aspect_ratio = canvas.width / canvas.height;
+        let fov;
+        if canvas.width > canvas.height {
+            fov = 90f32.to_radians();
+        } else {
+            // this sucks, the perspective method is just going to undo this to get what I actually want it to do anyway.
+            fov = (1.0 / aspect_ratio).atan() * 2.0;
+        }
+
+        let projection = Mat4::perspective_opengl(fov, 0.1, 10.0, aspect_ratio);
 
         gl.uniform_matrix4fv_with_f32_array(Some(&self.u_projection), false, &projection.values);
 
