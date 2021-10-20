@@ -60,6 +60,7 @@ impl Client {
                 height: canvas_height,
             },
         ));
+        self.gl.viewport(0, 0, canvas_width as i32, canvas_height as i32);
         Ok(())
     }
 

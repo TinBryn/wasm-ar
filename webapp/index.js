@@ -1,5 +1,4 @@
 const canvas = document.getElementById("arDisplay");
-const gl = canvas.getContext("webgl");
 
 import("wasm-ar").then(m => {
     const FPS_THROTTLE = 1000.0 / 30.0;
@@ -35,6 +34,4 @@ const setGlSize = (width, height) => {
     canvas.height = height;
     canvas.clientHeight = height;
     canvas.style.height = height;
-
-    gl.viewport(0, 0, width, height);
 }
