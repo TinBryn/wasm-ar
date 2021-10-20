@@ -8,8 +8,8 @@ use gfx_maths::Vec3;
 use wasm_bindgen::JsCast;
 use web_sys::WebGlBuffer;
 use web_sys::WebGlProgram;
-use web_sys::WebGlRenderingContext;
-use web_sys::WebGlRenderingContext as GL;
+use web_sys::WebGl2RenderingContext;
+use web_sys::WebGl2RenderingContext as GL;
 use web_sys::WebGlUniformLocation;
 
 use crate::app_state;
@@ -25,7 +25,7 @@ pub struct Color2D {
 
 #[allow(dead_code)]
 impl Color2D {
-    pub fn new(gl: &WebGlRenderingContext) -> Self {
+    pub fn new(gl: &WebGl2RenderingContext) -> Self {
         let program =
             ::shaders::compile::link_program(gl, COLOR_2D_GRADIENT_VERT, COLOR_2D_GRADIENT_FRAG)
                 .unwrap();
@@ -70,7 +70,7 @@ impl Color2D {
 
     pub fn render(
         &self,
-        gl: &WebGlRenderingContext,
+        gl: &WebGl2RenderingContext,
         control: app_state::Control,
         canvas: app_state::Canvas,
     ) {

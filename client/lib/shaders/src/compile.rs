@@ -1,9 +1,9 @@
 use web_sys::WebGlProgram;
-use web_sys::WebGlRenderingContext;
-use web_sys::WebGlRenderingContext as GL;
+use web_sys::WebGl2RenderingContext;
+use web_sys::WebGl2RenderingContext as GL;
 use web_sys::WebGlShader;
 pub fn compile_shader(
-    gl: &WebGlRenderingContext,
+    gl: &WebGl2RenderingContext,
     shader_kind: u32,
     source: &str,
 ) -> Result<WebGlShader, String> {
@@ -28,7 +28,7 @@ pub fn compile_shader(
 }
 
 pub fn link_program(
-    gl: &WebGlRenderingContext,
+    gl: &WebGl2RenderingContext,
     vert_source: &str,
     frag_source: &str,
 ) -> Result<WebGlProgram, String> {

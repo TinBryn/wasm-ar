@@ -14,13 +14,13 @@ use std::sync::{Arc, Mutex};
 
 use app_state::AppState;
 use wasm_bindgen::prelude::*;
-use web_sys::WebGlRenderingContext as GL;
+use web_sys::WebGl2RenderingContext as GL;
 use web_sys::*;
 
 #[wasm_bindgen]
 pub struct Client {
-    gl: WebGlRenderingContext,
-    program: shaders::color2d_gradient::Color2D,
+    gl: WebGl2RenderingContext,
+    program: shaders::cube::Cube,
     state: Mutex<Arc<AppState>>,
 }
 
@@ -34,10 +34,10 @@ impl Client {
         gl.enable(GL::BLEND);
         gl.blend_func(GL::SRC_ALPHA, GL::ONE_MINUS_SRC_ALPHA);
 
-        gl.clear_color(0.6, 0.4, 0.0, 1.0);
+        gl.clear_color(0.7, 0.7, 0.7, 1.0);
         gl.clear_depth(1.0);
 
-        let program = shaders::color2d_gradient::Color2D::new(&gl);
+        let program = shaders::cube::Cube::new(&gl);
 
         Self {
             gl,
@@ -69,8 +69,7 @@ impl Client {
 
         let curr_state = self.get_curr_state();
 
-        self.program
-            .render(&self.gl, curr_state.control, curr_state.canvas);
+        self.program.render(&self.gl, curr_state.canvas, curr_state.angles);
     }
 }
 

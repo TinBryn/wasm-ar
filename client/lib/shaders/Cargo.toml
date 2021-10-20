@@ -14,7 +14,7 @@ web-sys = { version = "0.3.55", features = [
     "MouseEvent",
     "WebGlBuffer",
     "WebGlProgram",
-    "WebGlRenderingContext",
+    "WebGl2RenderingContext",
     "WebGlShader",
     "WebGlUniformLocation",
     "Window",

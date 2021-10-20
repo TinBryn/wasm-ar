@@ -12,10 +12,18 @@ pub struct Control {
     pub right: f32,
 }
 
+#[derive(Debug, Clone, Copy, Default, PartialEq, PartialOrd)]
+pub struct Angles {
+    pub x: f32,
+    pub y: f32,
+    pub z: f32,
+}
+
 #[derive(Debug, Default, Clone)]
 pub struct AppState {
     pub canvas: Canvas,
     pub control: Control,
+    pub angles: Angles,
     pub time: f32,
 }
 
@@ -47,5 +55,9 @@ impl AppState {
             left: half_canvas_width - half_display_size,
             right: half_canvas_width + half_display_size,
         };
+
+        self.angles.x += 0.01;
+        self.angles.y += 0.02;
+        self.angles.y += 0.03;
     }
 }
