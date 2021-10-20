@@ -3,18 +3,12 @@ pub const CUBE_FRAG: &str = include_str!("../../shaders/cube.frag");
 
 use std::mem::size_of;
 
-use gfx_maths::Mat4;
-use gfx_maths::Quaternion;
-use gfx_maths::Vec3;
+use gfx_maths::{Mat4, Quaternion, Vec3};
 use wasm_bindgen::JsCast;
-use web_sys::WebGl2RenderingContext;
-use web_sys::WebGl2RenderingContext as GL;
-use web_sys::WebGlBuffer;
-use web_sys::WebGlProgram;
-use web_sys::WebGlUniformLocation;
+use web_sys::{WebGl2RenderingContext, WebGlBuffer, WebGlProgram, WebGlUniformLocation};
+use WebGl2RenderingContext as GL;
 
 use crate::app_state;
-use crate::utils;
 
 pub struct Cube {
     program: WebGlProgram,
@@ -75,8 +69,6 @@ impl Cube {
             .flatten()
             .collect();
 
-        // utils::log(&format!("{:?}", &verticies));
-
         let memory_buffer = wasm_bindgen::memory()
             .dyn_into::<js_sys::WebAssembly::Memory>()
             .unwrap()
@@ -94,8 +86,6 @@ impl Cube {
 
         let u_transform = gl.get_uniform_location(&program, "uTransform").unwrap();
         let u_projection = gl.get_uniform_location(&program, "uProjection").unwrap();
-
-        utils::log(&format!("num verticies = {}", verticies.len() / 6));
 
         Self {
             program,
