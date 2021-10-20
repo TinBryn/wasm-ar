@@ -117,30 +117,10 @@ impl Cube {
         gl.bind_buffer(GL::ARRAY_BUFFER, Some(&self.vertex_buffer));
 
         // setup position attribute
-        {
-            gl.vertex_attrib_pointer_with_i32(
-                0,
-                3,
-                GL::FLOAT,
-                false,
-                6 * size_of::<f32>() as i32,
-                0,
-            );
-            gl.enable_vertex_attrib_array(0);
-        }
+        configure_vec3_attribute(gl, 0, 0);
 
         // setup normal attribute
-        {
-            gl.vertex_attrib_pointer_with_i32(
-                1,
-                3,
-                GL::FLOAT,
-                false,
-                6 * size_of::<f32>() as i32,
-                3 * size_of::<f32>() as i32,
-            );
-            gl.enable_vertex_attrib_array(1);
-        }
+        configure_vec3_attribute(gl, 1, 3);
 
         let rotation_x = Quaternion::axis_angle(Vec3::new(1.0, 0.0, 0.0), angles.x);
         let rotation_y = Quaternion::axis_angle(Vec3::new(0.0, 1.0, 0.0), angles.y);
@@ -166,4 +146,16 @@ impl Cube {
 
         gl.draw_arrays(GL::TRIANGLES, 0, (self.array_len / 6) as i32);
     }
+}
+
+fn configure_vec3_attribute(gl: &GL, indx: u32, offset: i32) {
+    gl.vertex_attrib_pointer_with_i32(
+        indx,
+        3,
+        GL::FLOAT,
+        false,
+        6 * size_of::<f32>() as i32,
+        offset * size_of::<f32>() as i32,
+    );
+    gl.enable_vertex_attrib_array(indx);
 }
