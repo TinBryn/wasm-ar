@@ -1,7 +1,7 @@
 const canvas = document.getElementById("arDisplay");
 
 import("wasm-ar").then(m => {
-    const FPS_THROTTLE = 1000.0 / 30.0;
+    const FPS_THROTTLE = 1000.0 / 60.0;
     const client = new m.Client();
     const initialTime = Date.now();
     let lastDrawTime = -1;

@@ -57,8 +57,8 @@ impl AppState {
             right: half_canvas_width + half_display_size,
         };
 
-        self.angles.x += 0.00036 * time_step;
-        self.angles.y += 0.00060 * time_step;
-        self.angles.y += 0.00084 * time_step;
+        self.angles.x += 0.00037 * time_step;
+        self.angles.y += 0.00059 * time_step;
+        self.angles.y += 0.00083 * time_step;
     }
 }
