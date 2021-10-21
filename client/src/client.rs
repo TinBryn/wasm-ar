@@ -1,4 +1,4 @@
-use crate::app_state::AppState;
+use crate::{app_state::AppState, gl_setup, shaders, utils};
 use std::sync::{Arc, Mutex};
 use wasm_bindgen::prelude::*;
 use web_sys::WebGl2RenderingContext as GL;
@@ -7,7 +7,7 @@ use web_sys::*;
 #[wasm_bindgen]
 pub struct Client {
     gl: WebGl2RenderingContext,
-    program: crate::shaders::cube::Cube,
+    program: shaders::cube::Cube,
     state: Mutex<Arc<AppState>>,
 }
 
@@ -15,8 +15,8 @@ pub struct Client {
 impl Client {
     #[wasm_bindgen(constructor)]
     pub fn new() -> Self {
-        crate::utils::set_panic_hook();
-        let gl = crate::gl_setup::initialize_webgl_context().unwrap();
+        utils::set_panic_hook();
+        let gl = gl_setup::initialize_webgl_context().unwrap();
 
         gl.enable(GL::BLEND);
         gl.blend_func(GL::SRC_ALPHA, GL::ONE_MINUS_SRC_ALPHA);
@@ -24,7 +24,7 @@ impl Client {
         gl.clear_color(0.7, 0.7, 0.7, 1.0);
         gl.clear_depth(1.0);
 
-        let program = crate::shaders::cube::Cube::new(&gl);
+        let program = shaders::Cube::new(&gl);
 
         Self {
             gl,
