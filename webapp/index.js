@@ -24,7 +24,6 @@ import("wasm-ar").then(m => {
 
 window.onresize = () => {
     setGlSize(window.innerWidth, window.innerHeight);
-    client.resize(window.innerWidth, window.innerHeight);
 }
 
 const setGlSize = (width, height) => {
