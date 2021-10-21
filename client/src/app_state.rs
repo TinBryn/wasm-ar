@@ -30,7 +30,28 @@ impl AppState {
     }
 
     pub fn update(&mut self, time: f32, canvas: Canvas) {
+        self.resize(canvas);
+        self.time_step(time);
+    }
+
+    pub fn resized(&self, canvas: Canvas) -> AppState {
+        let mut result = self.clone();
+        result.resize(canvas);
+        result
+    }
+
+    #[allow(unused)]
+    pub fn time_stepped(&self, time: f32) -> AppState {
+        let mut result = self.clone();
+        result.time_step(time);
+        result
+    }
+
+    pub fn resize(&mut self, canvas: Canvas) {
         self.canvas = canvas;
+    }
+
+    pub fn time_step(&mut self, time: f32) {
         let time_step = time - self.time;
         self.time = time;
 

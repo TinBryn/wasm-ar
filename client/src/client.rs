@@ -60,6 +60,11 @@ impl Client {
         self.program
             .render(&self.gl, curr_state.canvas, curr_state.angles);
     }
+
+    pub fn resize(&mut self, width: f32, height: f32) {
+        let mut state = self.state.lock().unwrap();
+        *state = Arc::new(state.resized(crate::app_state::Canvas { width, height }));
+    }
 }
 
 impl Client {
